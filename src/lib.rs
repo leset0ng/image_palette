@@ -92,15 +92,12 @@ impl OcTree {
             to_reduce: [ARRAY_REPEAT_VALUE; 8],
             max_color,
         };
-
         let image_data = ImageData::try_from(image)?;
 
-        let root = Node::new();
-        let root_share: Rc<RefCell<Node>> = Rc::new(RefCell::new(root));
+        let root_share = tree.create_node(0);
 
         for color in image_data.data {
             tree.add_color(&root_share, color, 0);
-
             while tree.leaf_num > tree.max_color {
                 tree.reduce_tree();
             }
